@@ -44,25 +44,45 @@ class Home extends StatelessWidget {
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
-                )
-                ),
+                )),
                 const Divider(
                   height: 100.0,
                   color: Colors.green,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text('column1'),
-                    Text('column2'),
-                    Text('column3'),
+                    ElevatedButton(
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.flight,
+                          size: 60.0,
+                        )),
+                    const Text(
+                      'column2',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    // Image.asset(
+                    //   'assets/images/your_image.png', // Replace 'your_image.png' with your actual image asset path
+                    //   width: 40,
+                    //   height: 40,
+                    // ),
+                    const Text(
+                      'column3',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                   ],
                 )
               ],
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.grey,
+        child: const Icon(Icons.play_arrow),
       ),
     );
   }
