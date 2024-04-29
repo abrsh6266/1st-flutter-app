@@ -1,4 +1,3 @@
-// order_form.dart
 import 'package:flutter/material.dart';
 
 class OrderForm extends StatefulWidget {
@@ -9,6 +8,8 @@ class OrderForm extends StatefulWidget {
 class _OrderFormState extends State<OrderForm> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   Order _order = Order();
+  List<String> _items = ['Item A', 'Item B', 'Item C'];
+  String? _selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +24,28 @@ class _OrderFormState extends State<OrderForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
+              DropdownButtonFormField<String>(
+                value: _selectedItem,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedItem = value;
+                    _order.item = value!;
+                  });
+                },
+                items: _items.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
                 decoration: InputDecoration(labelText: 'Item'),
-                validator: _validateItemRequired,
-                onSaved: (value) => _order.item = value!,
+                validator: (value) => value == null ? 'Please select an item' : null,
               ),
+              SizedBox(height: 16.0),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Quantity'),
                 keyboardType: TextInputType.number,
-                validator: validateItemCount,
+                validator: _validateQuantity,
                 onSaved: (value) => _order.quantity = int.parse(value!),
               ),
               Padding(
@@ -48,16 +62,15 @@ class _OrderFormState extends State<OrderForm> {
     );
   }
 
-  String? _validateItemRequired(String? value) {
-    return value?.isEmpty ?? true ? 'Item required' : null;
-  }
-
-  String? validateItemCount(String? value) {
-    int? _valueAsInteger = int.tryParse(value ?? '');
-    if (_valueAsInteger == null) {
-      return 'Please enter a valid number';
+  String? _validateQuantity(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Quantity required';
     }
-    return _valueAsInteger == 0 ? 'At least one item is required' : null;
+    int? quantity = int.tryParse(value);
+    if (quantity == null || quantity <= 0) {
+      return 'Invalid quantity';
+    }
+    return null;
   }
 
   void _submitOrder(BuildContext context) {
