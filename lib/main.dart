@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'home.dart';
 import 'order_form.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OrderForm(),
+      home: Home(),
     );
   }
 }
